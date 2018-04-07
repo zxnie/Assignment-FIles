@@ -1,1 +1,1 @@
-Assignment 3 Transcription Factor Binding Prediction 
+Assignment 3: Transcription Factor Binding Prediction 
