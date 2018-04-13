@@ -9,8 +9,9 @@ for row in content:
 
 snr = []
 for row in contents:
-    if row[0] == 's' or row[0] == 'r':
+    if (row[0] == 's' or row[0] == 'r') and row[3] == 'AGT':
         snr.append(row)
+
 print ('Trace file read complete.')
 
 # outputs
@@ -32,7 +33,7 @@ for row in contents:
 print ('Got total packets.')
 
 # Delivery ratio
-for row in snr:
+for row in contents:
     if row[0] == 's' and row[3] == 'AGT':
         sent += 1
     elif row[0] == 'r' and row[3] == 'AGT':
@@ -42,30 +43,32 @@ for row in snr:
 
 print ('Got delivery ratio.')
 
-# Get valid seqno
+# Get valid seqence number
 seqnolist = []
 for row in snr:
     seqnolist.append(int(row[6]))
 
 seqnolist = set(seqnolist)
 seqnolist = list(seqnolist)
-seqnolist.sort
-# print (seqnolist)
+seqnolist = sorted(seqnolist)
+print ('Seqnolist end')
+print (seqnolist)
 
 # End-to-end delay
-start_time = [0] * len(seqnolist)
-end_time = [0] * len(seqnolist)
+start_time = [0] * (seqnolist[-1] + 1)
+end_time = [0] * (seqnolist[-1] + 1)
 i = 0
-for i in range(len(seqnolist)):
-    for row in snr:
-        if row[0] == 's' and row[3] == 'AGT' and row[6] == str(seqnolist[i]):
-            start_time[i] = float(row[1])
-        elif row[0] == 'r' and row[3] == 'AGT' and row[6] == str(seqnolist[i]):
-            end_time[i] = float(row[1])
+print ('Length of seqnolist:',len(seqnolist))
+for row in snr:
+        if row[0] == 's':
+            start_time[int(row[6])] = float(row[1])
+        elif row[0] == 'r':
+            end_time[int(row[6])] = float(row[1])
+#        print ('Iteration:', int(row[6]))
 print ('Got start time and end time')
 
 j = 0
-for j in range(len(seqnolist)):
+for j in range(seqnolist[-1]):
     if end_time[j] != 0:
         delay += (end_time[j] - start_time[j])
         count += 1
