@@ -1,4 +1,1 @@
-# 18Sp-EEL6591-Wireless-Networks
-
-"tr-analyzer" is ns2 trace file analyzer using python.
-It works on old style trace file, generating packets number, session number, packet delivery ratio, average delay and numberof routing control packets.
+# Course project of 18Sp-EEL6591-Wireless-Networks
